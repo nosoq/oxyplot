@@ -13,6 +13,7 @@ namespace OxyPlot.Series
     using System.Reflection;
 
     using OxyPlot.Axes;
+    using OxyPlot;
 
     /// <summary>
     /// Represents a "higher performance" ordered OHLC series for candlestick charts

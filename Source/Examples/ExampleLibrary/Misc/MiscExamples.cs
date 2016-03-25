@@ -16,6 +16,7 @@ namespace ExampleLibrary
     using System.Reflection;
     using System.Threading;
     using System.Xml.Serialization;
+    using System.Threading;
 
     using OxyPlot;
     using OxyPlot.Annotations;
@@ -2340,7 +2341,7 @@ namespace ExampleLibrary
                     int k = i;
                     int j0 = i0 + (i * n);
                     var j1 = Math.Min(j0 + n, i1);
-                    Task.Factory.StartNew(
+                    System.Threading.Task.Factory.StartNew(
                         () => invokePartition(k, j0, j1),
                         CancellationToken.None,
                         TaskCreationOptions.LongRunning,
