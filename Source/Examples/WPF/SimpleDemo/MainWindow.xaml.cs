@@ -7,19 +7,39 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using System.Windows;
+using OxyPlot;
+using OxyPlot.Wpf;
 namespace SimpleDemo
 {
+  /// <summary>
+  /// Interaction logic for MainWindow.xaml
+  /// </summary>
+  public partial class MainWindow
+  {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Initializes a new instance of the <see cref="MainWindow" /> class.
     /// </summary>
-    public partial class MainWindow
+    public MainWindow()
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="MainWindow" /> class.
-        /// </summary>
-        public MainWindow()
-        {
-            this.InitializeComponent();
-        }
-   }
+      this.InitializeComponent();
+    }
+
+
+    public void LoadedHandler(object sender, RoutedEventArgs e)
+    {
+      var Plot = sender as PlotView;
+
+      var pc = Plot.ActualController;
+      pc.UnbindMouseDown(OxyMouseButton.Left);
+      pc.UnbindMouseDown(OxyMouseButton.Left, OxyModifierKeys.Control);
+      pc.UnbindMouseDown(OxyMouseButton.Left, OxyModifierKeys.Shift);
+
+      pc.BindMouseDown(OxyMouseButton.Left, new DelegatePlotCommand<OxyMouseDownEventArgs>(
+                   (view, controller, args) =>
+                      controller.AddMouseManipulator(view, new WpbTrackerManipulator(view), args)));
+
+    }
+
+  }
 }

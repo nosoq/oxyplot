@@ -1,14 +1,103 @@
 ﻿<Window x:Class="SimpleDemo.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf" 
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
         xmlns:simpleDemo="clr-namespace:SimpleDemo"
-        Title="OxyPlot SimpleDemo" Height="480" Width="640">
-    <Window.DataContext>
-        <simpleDemo:MainViewModel />
-    </Window.DataContext>
-    <Grid>
-        <!-- The OxyPlot control is binding to a PlotModel in the MainViewModel -->
-        <oxy:PlotView Model="{Binding Model}"/>
-    </Grid>
+        Title="OxyPlot SimpleDemo"
+        Width="640"
+        Height="480"
+        Background="#EEEEEE">
+  <Window.DataContext>
+    <simpleDemo:MainViewModel />
+  </Window.DataContext>
+  <Grid>
+    <Border Margin="20"
+            Background="White"
+            BorderBrush="#D2D2D2"
+            BorderThickness="1">
+      <oxy:PlotView Margin="2"
+                    Loaded="LoadedHandler"
+                    Model="{Binding Model}">
+        <oxy:PlotView.DefaultTrackerTemplate>
+          <ControlTemplate>
+            <StackPanel>
+              <oxy:TrackerControl Panel.ZIndex="10"
+                                  Background="White"
+                                  BorderBrush="Blue"
+                                  BorderEdgeMode="Unspecified"
+                                  BorderThickness="1"
+                                  CornerRadius="8"
+                                  HorizontalLineVisibility="Collapsed"
+                                  LineExtents="{Binding PlotModel.PlotArea}"
+                                  Opacity="0.9"
+                                  Position="{Binding Position}"
+                                  ShowPointer="False">
+                <oxy:TrackerControl.Content>
+                  <StackPanel Margin="5"
+                              Orientation="Vertical">
+                    <TextBlock Text="{Binding FormatedXValue}" />
+                    <ItemsControl ItemsSource="{Binding Items}">
+
+                      <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                          <StackPanel />
+                        </ItemsPanelTemplate>
+                      </ItemsControl.ItemsPanel>
+
+                      <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                          <DockPanel>
+                            <Border Width="10"
+                                    Height="10"
+                                    Margin="0 0 3 0"
+                                    Background="{Binding WpfColor}"
+                                    DockPanel.Dock="Left" />
+                            <TextBlock Text="{Binding Title}"
+                                       DockPanel.Dock="Left" />
+                            <TextBlock Text="{Binding Path=Value, StringFormat={}{0:F2}}"
+                                       Margin="5 0 0 0"
+                                       DockPanel.Dock="Right"
+                                       TextAlignment="Right" />
+                          </DockPanel>
+                        </DataTemplate>
+                      </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                  </StackPanel>
+                </oxy:TrackerControl.Content>
+              </oxy:TrackerControl>
+
+              <ItemsControl ItemsSource="{Binding Items}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <Canvas />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+
+                <ItemsControl.ItemContainerStyle>
+                  <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding CircleX}" />
+                    <Setter Property="Canvas.Top" Value="{Binding CircleY}" />
+                  </Style>
+                </ItemsControl.ItemContainerStyle>
+
+                <ItemsControl.ItemTemplate>
+                  <DataTemplate>
+                    <Ellipse Width="6"
+                             Height="6"
+                             HorizontalAlignment="Left"
+                             VerticalAlignment="Top"
+                             Fill="{Binding WpfColor}">
+                      <Ellipse.RenderTransform>
+                        <TranslateTransform X="-3" Y="-3" />
+                      </Ellipse.RenderTransform>
+                    </Ellipse>
+                  </DataTemplate>
+                </ItemsControl.ItemTemplate>
+              </ItemsControl>
+            </StackPanel>
+          </ControlTemplate>
+        </oxy:PlotView.DefaultTrackerTemplate>
+      </oxy:PlotView>
+    </Border>
+  </Grid>
 </Window>
