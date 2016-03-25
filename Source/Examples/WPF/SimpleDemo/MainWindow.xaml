@@ -12,7 +12,7 @@
   </Window.DataContext>
   <Grid>
     <Border Margin="20"
-            Background="White"
+        <oxy:PlotView Model="{Binding Model}" />
             BorderBrush="#D2D2D2"
             BorderThickness="1">
       <oxy:PlotView Margin="2"

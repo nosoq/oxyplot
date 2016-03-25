@@ -18,6 +18,11 @@ namespace OxyPlot.Series
     public class RectangleBarSeries : XYAxisSeries
     {
         /// <summary>
+        /// The default tracker format string
+        /// </summary>
+        public new const string DefaultTrackerFormatString = "{0}\n{1}: {2} {3}\n{4}: {5} {6}";
+
+        /// <summary>
         /// The default fill color.
         /// </summary>
         private OxyColor defaultFillColor;
@@ -34,7 +39,7 @@ namespace OxyPlot.Series
             this.StrokeColor = OxyColors.Black;
             this.StrokeThickness = 1;
 
-            this.TrackerFormatString = "{0}\n{1}: {2:0.###} {3:0.###}\n{4}: {5:0.###} {6:0.###}";
+            this.TrackerFormatString = DefaultTrackerFormatString;
 
             this.LabelFormatString = "{4}"; // title
 
@@ -117,7 +122,8 @@ namespace OxyPlot.Series
                         Position = sp,
                         Item = item,
                         Index = i,
-                        Text = this.Format(
+                        Text = StringHelper.Format(
+                        this.ActualCulture, 
                         this.TrackerFormatString,
                         item,
                         this.Title,
@@ -139,8 +145,7 @@ namespace OxyPlot.Series
         /// Renders the series on the specified rendering context.
         /// </summary>
         /// <param name="rc">The rendering context.</param>
-        /// <param name="model">The model.</param>
-        public override void Render(IRenderContext rc, PlotModel model)
+        public override void Render(IRenderContext rc)
         {
             if (this.Items.Count == 0)
             {
@@ -177,7 +182,8 @@ namespace OxyPlot.Series
 
                 if (this.LabelFormatString != null)
                 {
-                    var s = this.Format(
+                    var s = StringHelper.Format(
+                        this.ActualCulture, 
                         this.LabelFormatString,
                         this.GetItem(i),
                         item.X0,
@@ -227,12 +233,11 @@ namespace OxyPlot.Series
         /// <summary>
         /// Sets the default values.
         /// </summary>
-        /// <param name="model">The model.</param>
-        protected internal override void SetDefaultValues(PlotModel model)
+        protected internal override void SetDefaultValues()
         {
             if (this.FillColor.IsAutomatic())
             {
-                this.defaultFillColor = model.GetDefaultColor();
+                this.defaultFillColor = this.PlotModel.GetDefaultColor();
             }
         }
 
