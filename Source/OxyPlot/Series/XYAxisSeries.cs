@@ -22,7 +22,7 @@ namespace OxyPlot.Series
         /// <summary>
         /// The default tracker format string
         /// </summary>
-        public const string DefaultTrackerFormatString = "{0}\n{1}: {2:0.###}\n{3}: {4:0.###}";
+        public const string DefaultTrackerFormatString = "{0}\n{1}: {2}\n{3}: {4}";
 
         /// <summary>
         /// The default x-axis title
@@ -170,8 +170,7 @@ namespace OxyPlot.Series
         /// <summary>
         /// Sets default values from the plot model.
         /// </summary>
-        /// <param name="model">The plot model.</param>
-        protected internal override void SetDefaultValues(PlotModel model)
+        protected internal override void SetDefaultValues()
         {
         }
 
@@ -262,7 +261,7 @@ namespace OxyPlot.Series
                 {
                     double segmentLength = (sp2 - sp1).Length;
                     double u = segmentLength > 0 ? (spl - sp1).Length / segmentLength : 0;
-                    dpn = new DataPoint(p1.X + (u * (p2.X - p1.X)), p1.Y + (u * (p2.Y - p1.Y)));
+                    dpn = this.InverseTransform(spl);
                     spn = spl;
                     minimumDistance = l2;
                     index = i + u;
