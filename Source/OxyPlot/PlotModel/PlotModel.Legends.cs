@@ -14,7 +14,10 @@ namespace OxyPlot
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601:PartialElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
+    /// <summary>
+    /// Makes the LegendOrientation property safe.
+    /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "*", Justification = "Reviewed. Suppression is OK here.")]
     public partial class PlotModel
     {
         /// <summary>

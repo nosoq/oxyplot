@@ -18,7 +18,10 @@ namespace OxyPlot
     using OxyPlot.Axes;
     using OxyPlot.Series;
 
-    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1601:PartialElementsMustBeDocumented", Justification = "Reviewed. Suppression is OK here.")]
+    /// <summary>
+    /// Renders the plot with the specified rendering context.
+    /// </summary>
+    [SuppressMessage("StyleCop.CSharp.DocumentationRules", "*", Justification = "Reviewed. Suppression is OK here.")]
     public partial class PlotModel
     {
         /// <summary>
