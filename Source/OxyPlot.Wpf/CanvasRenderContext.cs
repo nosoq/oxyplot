@@ -27,7 +27,7 @@ namespace OxyPlot.Wpf
     /// <summary>
     /// Implements <see cref="IRenderContext" /> for <see cref="System.Windows.Controls.Canvas" />.
     /// </summary>
-    public class CanvasRenderContext : IRenderContext
+    public class CanvasRenderContext : IRenderContext, IAreaRenderContext
     {
         /// <summary>
         /// The maximum number of figures per geometry.
@@ -138,6 +138,20 @@ namespace OxyPlot.Wpf
         /// </summary>
         /// <value><c>true</c> if the context renders to screen; otherwise, <c>false</c>.</value>
         public bool RendersToScreen { get; set; }
+
+        /// <summary>
+        /// Area rect.
+        /// </summary>
+        private Rect areaRect { get; set; }
+
+        /// <summary>
+        /// Set area rect.
+        /// </summary>
+        /// <param name="areaRect">Area rect.</param>
+        public void SetAreaRect(OxyRect areaRect)
+        {
+          this.areaRect = this.ToRect(areaRect);
+        }
 
         /// <summary>
         /// Draws an ellipse.
@@ -522,10 +536,11 @@ namespace OxyPlot.Wpf
             double dx = 0;
             double dy = 0;
 
+            tb.Measure(new Size(1000, 1000));
+            var size = tb.DesiredSize;
+
             if (maxSize != null || halign != HorizontalAlignment.Left || valign != VerticalAlignment.Top)
             {
-                tb.Measure(new Size(1000, 1000));
-                var size = tb.DesiredSize;
                 if (maxSize != null)
                 {
                     if (size.Width > maxSize.Value.Width + 1e-3)
@@ -570,7 +585,19 @@ namespace OxyPlot.Wpf
                 transform.Children.Add(new RotateTransform(rotate));
             }
 
+            if (this.areaRect != null)
+            {
+              var realXLocation = p.X + dx;
+              var realYLocation =  p.Y + dy;
+              var realLocationPoint = new Point(realXLocation > 0 ? realXLocation : 0, realYLocation > 0 ? realYLocation : 0);
+              var realLocationRect = new Rect(realLocationPoint, size);
+              if (!this.areaRect.Contains(realLocationRect) && rotate == 0)
+              {
+                tb.Visibility = Visibility.Collapsed;
+              }
+            }
             transform.Children.Add(new TranslateTransform(p.X, p.Y));
+            
             tb.RenderTransform = transform;
             if (tb.Clip != null)
             {

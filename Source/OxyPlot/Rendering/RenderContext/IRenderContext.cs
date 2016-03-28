@@ -222,4 +222,16 @@ namespace OxyPlot
         /// </summary>
         void ResetClip();
     }
+
+    /// <summary>
+    /// Specifies functionality to render 2D graphics in area.
+    /// </summary>
+    public interface IAreaRenderContext
+    {
+      /// <summary>
+      /// Set area rect.
+      /// </summary>
+      /// <param name="rect">Rect.</param>
+      void SetAreaRect(OxyRect rect);
+    }
 }

@@ -398,8 +398,11 @@ namespace OxyPlot.Axes
 
                         break;
                 }
-
+                
                 string text = axis.FormatValue(value);
+                var areaContext = this.RenderContext as IAreaRenderContext;
+                if (areaContext != null)
+                  areaContext.SetAreaRect(this.Plot.PlotAndAxisArea);
                 this.RenderContext.DrawMathText(
                     pt,
                     text,
