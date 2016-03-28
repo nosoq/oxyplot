@@ -10,7 +10,7 @@ namespace ExampleLibrary
     using System.Collections.Generic;
     using System.Globalization;
     using System.Threading;
-    //using System.Threading.Tasks;
+    using System.Threading.Tasks;
 
     using OxyPlot;
     using OxyPlot.Annotations;
