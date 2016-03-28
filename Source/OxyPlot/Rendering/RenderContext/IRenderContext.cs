@@ -226,7 +226,7 @@ namespace OxyPlot
     /// <summary>
     /// Specifies functionality to render 2D graphics in area.
     /// </summary>
-    public interface IAreaRenderContext
+    public interface IAreaRenderContext : IRenderContext
     {
       /// <summary>
       /// Set area rect.
